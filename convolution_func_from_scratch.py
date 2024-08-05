@@ -4,11 +4,6 @@ import numpy as np
 
 def manualConvolution_3x3(mat1, mat2):
     outputmat = [[1 for y in mat1[0]] for x in mat1]
-    
-    if len(mat1) != len(mat2) or any(len(row1) != len(row2) for row1, row2 in zip(mat1, mat2)):
-        raise ValueError("mat1 and mat2 must have the same dimensions")
-    
-    
     for i in range(0,len(mat1)):
         for j in range(0,len(mat1[i])):
             outputmat[i][j] = mat1[i][j]*mat2[i][j]
@@ -19,12 +14,18 @@ def manualConvolution_3x3(mat1, mat2):
 def applyConvOnImage(img, customKernel):
     
     if len(img.shape) ==3:
-        cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    for i in range(1, img.shape[1], 3):
-        for j in range(1, img.shape[0], 3):
-            tempMat = img[i-1:i+2][j-1:j+2]
-            img[i-1:i+2][j-1:j+2] = manualConvolution_3x3(tempMat , customKernel)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        
+    img_height , img_width = img.shape
+    outputImg = np.zeros_like(img)
     
-    return img
+    for i in range(1, img_width, 3):
+        for j in range(1, img_height, 3):
+            tempMat = img[i-1:i+2 , j-1:j+2]
+            convRes = manualConvolution_3x3(tempMat.tolist(), customKernel)
+            outputImg[i,j] = np.sum(convRes) 
+            
+    
+    return outputImg
             
             
