@@ -19,8 +19,8 @@ def applyConvOnImage(img, customKernel):
     img_height , img_width = img.shape
     outputImg = np.zeros_like(img)
     
-    for i in range(1, img_width, 3):
-        for j in range(1, img_height, 3):
+    for i in range(1, img_width):
+        for j in range(1, img_height):
             tempMat = img[i-1:i+2 , j-1:j+2]
             convRes = manualConvolution_3x3(tempMat.tolist(), customKernel)
             outputImg[i,j] = np.sum(convRes) 
