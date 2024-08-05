@@ -17,6 +17,9 @@ def manualConvolution_3x3(mat1, mat2):
             
 
 def applyConvOnImage(img, customKernel):
+    
+    if len(img.shape) ==3:
+        cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     for i in range(1, img.shape[1], 3):
         for j in range(1, img.shape[0], 3):
             tempMat = img[i-1:i+2][j-1:j+2]
