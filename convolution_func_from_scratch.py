@@ -12,10 +12,11 @@ def applyConvOnImage(img, customKernel):
 
         
     img_height , img_width, dimensions = img.shape
-    outputImg = np.zeros_like(img)
+    
     paded_image = np.pad(img, ((1,1), (1,1), (0,0)), mode="constant")
-    for i in range(1, img_width):
-        for j in range(1, img_height):
+    outputImg = np.zeros_like(img, dtype=np.float32)
+    for i in range(1, img_height):
+        for j in range(1, img_width):
             for k in range(dimensions):
                 tempMat = paded_image[i-1:i+2 , j-1:j+2, k]
                 convRes = manualConvolution_3x3(tempMat, customKernel)
